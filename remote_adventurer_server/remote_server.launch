@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+  <include file="$(find nxt_adventurer)/robot.launch"/>
+  <node pkg="remote_adventurer_server" type="remote_server" name="server_node" output="screen" respawn="false" />
+</launch>
