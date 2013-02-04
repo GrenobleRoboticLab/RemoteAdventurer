@@ -1,0 +1,16 @@
+<package>
+  <description brief="remote_adventurer_client">
+
+     remote_adventurer_client
+
+  </description>
+  <author>Xavier</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/remote_adventurer_client</url>
+  <depend package="roscpp"/>
+  <depend package="nxt_adventurer"/>
+
+</package>
+
+

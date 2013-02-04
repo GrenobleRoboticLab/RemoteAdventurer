@@ -1,0 +1,9 @@
+<stack>
+    <description brief="Share robot on network">This stack provide some tools to allow remote applications to get information and control robots over network.</description>
+    <author>Maintained by Xavier Bouvard</author>
+    <license>BSD</license>
+    <review status="unreviewed" notes="" />
+    <url></url>
+    <depend stack="ros" />
+    <depend stack="nxt" />
+</stack>

@@ -1,0 +1,21 @@
+<package>
+  <description brief="nxt_adventurer">
+
+     nxt_adventurer
+
+  </description>
+  <author>Xavier</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/nxt_adventurer</url>
+  <depend package="roscpp" />
+  <depend package="nxt_ros"/>
+  <depend package="nxt_msgs" />
+  <depend package="pugixml"/>
+
+  <export>
+    <cpp cflags="-I${prefix}/include" lflags="-L${prefix}/lib -lnxt_adventurer"/>
+  </export>
+</package>
+
+
