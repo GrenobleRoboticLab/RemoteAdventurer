@@ -19,7 +19,7 @@ void TcpClient::connect(const std::string &sIp, int nPort)
 {
     m_sIp   =   sIp;
     m_nPort =   nPort;
-    m_Socket.connectToHost(QHostAddress("127.0.0.1"), m_nPort);
+    m_Socket.connectToHost(QHostAddress("10.18.16.99"), m_nPort);
 }
 
 void TcpClient::sendStr(const std::string &sText)

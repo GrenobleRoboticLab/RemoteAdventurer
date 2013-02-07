@@ -45,8 +45,10 @@ public:
 private:
     NXTWatcherFactory       m_WatcherFactory;
     Dashboard               m_Dashboard;
+    Dashboard               m_OldDashboard;
     TcpServer*              m_pTcpServer;
     XMLDashboardHelper      m_XMLDashboardHelper;
+    QTime                   m_Timer;
 }; // class NXTDashboard
 
 class TcpServer : public QTcpServer

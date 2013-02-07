@@ -44,7 +44,7 @@ private:
         std::cout << "Wheel : " << wheel.getName() << std::endl;
         std::cout << "Effort : " << wheel.getEffort() << " ";
         std::cout << " Position : " << wheel.getPosition() << " ";
-        std::cout << " Velocity : " << wheel.getVelocity() << " ";
+        std::cout << " Velocity : " << wheel.getVelocity() << " " << std::endl;
     }
 
     // print ultrasonic sensor informations

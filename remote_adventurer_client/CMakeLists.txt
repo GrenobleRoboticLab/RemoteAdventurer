@@ -10,11 +10,17 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 #set(ROS_BUILD_TYPE RelWithDebInfo)
 
 rosbuild_init()
-
+rosbuild_include(qt_build qt-ros)
+rosbuild_prepare_qt4(QtNetwork QtCore QtGui)
 #set the default path for built executables to the "bin" directory
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+
+#QT4_WRAP_CPP(RA_TCPCLIENT_MOC include/remote_adventurer_server/RA_TcpServer.h)
+
+rosbuild_add_executable(remote_client src/RA_Window.cpp)# ${RA_TCPCLIENT_MOC})
+target_link_libraries(remote_client ${QT_LIBRARIES})
 
 #uncomment if you have defined messages
 #rosbuild_genmsg()

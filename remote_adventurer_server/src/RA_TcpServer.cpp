@@ -25,16 +25,26 @@ NXTDashboard::NXTDashboard(ros::NodeHandle &nh)
     m_pTcpServer = NULL;
     m_WatcherFactory.connect(nh, &m_Dashboard);
     m_Dashboard.addListener(this);
+    m_Timer.start();
 }
 
 void NXTDashboard::onDashboardUpdate(Dashboard * pDashboard)
 {
     std::string sXML;
-    m_XMLDashboardHelper.genXMLString(*pDashboard, sXML);
-    QString sqXML(sXML.c_str());
 
-    if (m_pTcpServer)
-        QMetaObject::invokeMethod(m_pTcpServer, "sendStr", Qt::QueuedConnection, Q_ARG(QString, sqXML));
+    if (pDashboard
+    && (m_OldDashboard != *pDashboard)
+    && (m_Timer.elapsed() >= 500))
+    {
+        m_XMLDashboardHelper.genXMLString(*pDashboard, sXML);
+        QString sqXML(sXML.c_str());
+
+        if (m_pTcpServer)
+            QMetaObject::invokeMethod(m_pTcpServer, "sendStr", Qt::QueuedConnection, Q_ARG(QString, sqXML));
+
+        m_Timer.start();
+        m_OldDashboard = *pDashboard;
+    }
 }
 
 /* ----------------------------- TcpServer ----------------------------- */

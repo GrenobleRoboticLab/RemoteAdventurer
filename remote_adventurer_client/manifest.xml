@@ -10,7 +10,7 @@
   <url>http://ros.org/wiki/remote_adventurer_client</url>
   <depend package="roscpp"/>
   <depend package="nxt_adventurer"/>
-
+  <depend package="qt_build" />
 </package>
 
 
