@@ -27,8 +27,8 @@ public:
      */
     typedef enum
     {
-        NMD_AHEAD   = 0,
-        NMD_BACK    = 1
+        NMD_BACK    = 0,
+        NMD_AHEAD   = 1
     } NXTMoveDirection;
 
     /**
@@ -36,8 +36,8 @@ public:
      */
     typedef enum
     {
-        NTD_RIGHT    = 0,
-        NTD_LEFT     = 1
+        NTD_LEFT     = 0,
+        NTD_RIGHT    = 1
 
     } NXTTurnDirection;
 
