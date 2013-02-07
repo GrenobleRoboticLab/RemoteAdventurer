@@ -113,4 +113,6 @@ void TcpServer::readClientMsg()
 
     if (m_NxtOrder.treat(sReceive))
         sendStr("Your order as been trasmitted.");
+    else
+        sendStr("Did you send me an order ?");
  }
