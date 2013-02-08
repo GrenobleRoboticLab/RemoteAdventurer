@@ -311,29 +311,36 @@ void Dashboard::updateWheels(const sensor_msgs::JointState::ConstPtr& jointState
     }
 
     if (bUpdated)
+    {
         m_Signal(this);
+        m_LastUpdated = ST_MOTOR;
+    }
 }
 
 void Dashboard::updateUltrasonic(const nxt_msgs::Range::ConstPtr& range)
 {
     m_Ultrasonic.update(range);
     m_Signal(this);
+    m_LastUpdated = ST_ULTRASONIC;
 }
 
 void Dashboard::updateColor(const nxt_msgs::Color::ConstPtr& color)
 {
     m_Color.update(color);
     m_Signal(this);
+    m_LastUpdated = ST_COLOR;
 }
 
 void Dashboard::updateRightContact(const nxt_msgs::Contact::ConstPtr& contact)
 {
     m_RightContact.update(contact);
     m_Signal(this);
+    m_LastUpdated = ST_CONTACT;
 }
 
 void Dashboard::updateLeftContact(const nxt_msgs::Contact::ConstPtr& contact)
 {
     m_LeftContact.update(contact);
     m_Signal(this);
+    m_LastUpdated = ST_CONTACT;
 }

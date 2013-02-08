@@ -9,6 +9,16 @@
 
 namespace RemoteAdventurer
 {
+/**
+ * The SensorType enumeration provide NXT sensors type.
+ */
+enum SensorType
+{
+    ST_MOTOR,
+    ST_ULTRASONIC,
+    ST_COLOR,
+    ST_CONTACT
+};
 
 class DashboardListener;
 
@@ -262,6 +272,8 @@ public:
     const Contact&                      getRightContact()   const { return m_RightContact;  }
     const Contact&                      getLeftContact()    const { return m_LeftContact;   }
 
+    SensorType                          lastUpdated()       const { return m_LastUpdated; }
+
     virtual void                        setRightWheelName(const std::string & sName)    { m_RightWheel = Wheel(sName); }
     virtual void                        setLeftWheelName (const std::string & sName)    { m_LeftWheel  = Wheel(sName); }
     virtual void                        setAuxWheelName  (const std::string &sName)     { m_AuxWheel   = Wheel(sName); }
@@ -283,6 +295,7 @@ private:
     Contact                             m_RightContact;
     Contact                             m_LeftContact;
 
+    SensorType                          m_LastUpdated;
     boost::signal<void (Dashboard*)>    m_Signal;
 
     virtual void                        updateWheels(const sensor_msgs::JointState::ConstPtr& jointState);
