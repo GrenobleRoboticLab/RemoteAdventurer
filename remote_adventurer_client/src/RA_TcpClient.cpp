@@ -1,8 +1,8 @@
-#include "nxt_adventurer/RA_TcpClient.h"
-
+#include <nxt_adventurer/RA_XMLHelper.h>
 #include <iostream>
+#include "remote_adventurer_client/RA_TcpClient.h"
 
-using namespace RemoteAdventurer;
+using namespace RemoteAdventurerCLient;
 
 /* ----------------------------- TcpServer ----------------------------- */
 
@@ -15,36 +15,42 @@ TcpClient::TcpClient(QObject * parent)
 
 TcpClient::~TcpClient()
 {
-    std::cout << "client killed" << std::endl;
 }
 
-void TcpClient::connect(const std::string &sIp, int nPort)
+void TcpClient::connect(const QString &sIp, int nPort)
 {
     m_sIp   =   sIp;
     m_nPort =   nPort;
-    m_Socket.connectToHost(QHostAddress("127.0.0.1"), m_nPort);
+    m_Socket.connectToHost(QHostAddress(sIp), m_nPort);
 }
 
-void TcpClient::sendStr(const std::string &sText)
+void TcpClient::sendStr(const QString &sText)
 {
     QTextStream stream(&m_Socket);
-    stream << sText.c_str();
+    stream << sText;
 }
 
 void TcpClient::connectionSuccess()
 {
-    std::cout << "CONNECTED !" << std::endl; // todo:
-    sendStr("CONNECTED");
+    emit connected();
 }
 
 void TcpClient::readServerMsg()
 {
-    char    sBuffer[1280];
-    int     nLinesRead = 0;
-    while (nLinesRead >= 0)
+    std::string sReceive;
+    char        cBuffer[4000];
+    int         nLinesRead = 0;
+
+    while (m_Socket.canReadLine())
     {
-        nLinesRead = m_Socket.readLine(sBuffer, 1280);
+        nLinesRead = m_Socket.readLine(cBuffer, 1280);
         if (nLinesRead != -1)
-            std::cout << std::string(sBuffer, nLinesRead) << std::endl;
+            sReceive.append(cBuffer, nLinesRead);
     }
+
+    if(ISOK(m_XmlDash.load(sReceive, m_Dash)))
+    {
+        emit dashUpdated(m_Dash);
+    }
+    else std::cout << "Unable to load received datas." << std::endl;
 }

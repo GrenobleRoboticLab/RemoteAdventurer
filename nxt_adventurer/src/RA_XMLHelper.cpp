@@ -23,21 +23,12 @@ bool XMLWheelHelper::buildNode(const Wheel & wheel, pugi::xml_node & node)
 
 RA_ERROR XMLWheelHelper::buildWheel(const pugi::xml_node &node, Wheel &wheel)
 {
-    RA_ERROR    wRet        = RA_FAIL;
-    float       fTempValue  = 0.0f;
-
     wheel.setName(node.child("name").attribute("value").value());
+    wheel.setEffort(node.child("effort").attribute("value").as_double(node.child("effort").attribute("value").as_int()));
+    wheel.setPosition(node.child("position").attribute("value").as_double(node.child("position").attribute("value").as_int()));
+    wheel.setVelocity(node.child("velocity").attribute("value").as_double(node.child("velocity").attribute("value").as_int()));
 
-    if (ISOK(wRet = CSTRTOD(node.child("effort").attribute("value").value(), fTempValue)))
-            wheel.setEffort(fTempValue);
-
-    if (ISOK(wRet = CSTRTOD(node.child("position").attribute("value").value(), fTempValue)))
-            wheel.setPosition(fTempValue);
-
-    if (ISOK(wRet = CSTRTOD(node.child("velocity").attribute("value").value(), fTempValue)))
-            wheel.setVelocity(fTempValue);
-
-    return wRet;
+    return RA_SUCCESS;
 }
 
 /* ------------------------ XMLUltrasonicHelper ------------------------ */
@@ -61,22 +52,12 @@ bool XMLUltrasonicHelper::buildNode(const Ultrasonic &ultrasonic, pugi::xml_node
 
 RA_ERROR XMLUltrasonicHelper::buildUltrasonic(const pugi::xml_node &node, Ultrasonic &ultrasonic)
 {
-    RA_ERROR    wRet        = RA_FAIL;
-    float       fTempValue  = 0.0f;
+    ultrasonic.setRange(node.child("range").attribute("value").as_double(node.child("range").attribute("value").as_int()));
+    ultrasonic.setRangeMin(node.child("rangeMin").attribute("value").as_double(node.child("rangeMin").attribute("value").as_int()));
+    ultrasonic.setRangeMax(node.child("rangeMax").attribute("value").as_double(node.child("rangeMax").attribute("value").as_int()));
+    ultrasonic.setSpreadAngle(node.child("spreadAngle").attribute("value").as_double(node.child("spreadAngle").attribute("value").as_int()));
 
-    if (ISOK(wRet = CSTRTOD(node.child("range").attribute("value").value(), fTempValue)))
-            ultrasonic.setRange(fTempValue);
-
-    if (ISOK(wRet = CSTRTOD(node.child("rangeMin").attribute("value").value(), fTempValue)))
-            ultrasonic.setRangeMin(fTempValue);
-
-    if (ISOK(wRet = CSTRTOD(node.child("rangeMax").attribute("value").value(), fTempValue)))
-            ultrasonic.setRangeMax(fTempValue);
-
-    if (ISOK(wRet = CSTRTOD(node.child("spreadAngle").attribute("value").value(), fTempValue)))
-            ultrasonic.setSpreadAngle(fTempValue);
-
-    return wRet;
+    return RA_SUCCESS;
 }
 
 /* ------------------------ XMLColorHelper ------------------------ */
@@ -100,22 +81,12 @@ bool XMLColorHelper::buildNode(const Color &color, pugi::xml_node &node)
 
 RA_ERROR XMLColorHelper::buildColor(const pugi::xml_node &node, Color &color)
 {
-    RA_ERROR    wRet        = RA_FAIL;
-    float       fTempValue  = 0.0f;
+    color.setIntensity(node.child("intensity").attribute("value").as_double());
+    color.setRed(node.child("red").attribute("value").as_double(node.child("red").attribute("value").as_int()));
+    color.setGreen(node.child("green").attribute("value").as_double(node.child("green").attribute("value").as_int()));
+    color.setBlue(node.child("blue").attribute("value").as_double(node.child("blue").attribute("value").as_int()));
 
-    if (ISOK(wRet = CSTRTOD(node.child("intensity").attribute("value").value(), fTempValue)))
-            color.setIntensity(fTempValue);
-
-    if (ISOK(wRet = CSTRTOD(node.child("red").attribute("value").value(), fTempValue)))
-            color.setRed(fTempValue);
-
-    if (ISOK(wRet = CSTRTOD(node.child("green").attribute("value").value(), fTempValue)))
-            color.setGreen(fTempValue);
-
-    if (ISOK(wRet = CSTRTOD(node.child("blue").attribute("value").value(), fTempValue)))
-            color.setBlue(fTempValue);
-
-    return wRet;
+    return RA_SUCCESS;
 }
 
 /* ------------------------ XMLContactHelper ------------------------ */
@@ -138,13 +109,14 @@ RA_ERROR XMLContactHelper::buildContact(const pugi::xml_node &node, Contact &con
 
 /* ------------------------ XMLDashboardHelper ------------------------ */
 
-RA_ERROR XMLDashboardHelper::load(const std::string &sXML, Dashboard &dashboard)
+RA_ERROR XMLDashboardHelper::load(const std::string & sXML, Dashboard & dashboard)
 {
-    RA_ERROR                wRet = RA_SUCCESS;
+    RA_ERROR                wRet = RA_FAIL;
     pugi::xml_parse_result  result = m_Document.load(sXML.c_str());
 
     if (result)
     {
+        wRet = RA_SUCCESS;
         pugi::xml_node  mainNode    = m_Document.first_child();
         pugi::xml_node  tempNode;
         Wheel           tempWheel;
@@ -157,10 +129,8 @@ RA_ERROR XMLDashboardHelper::load(const std::string &sXML, Dashboard &dashboard)
 
         if (ISOK(wRet) && ISOK(wRet = m_Wheel.buildWheel(tempNode.find_child_by_attribute("wheel", "type", "right"), tempWheel)))
             dashboard.setRightWheel(tempWheel);
-
         if (ISOK(wRet) && ISOK(wRet = m_Wheel.buildWheel(tempNode.find_child_by_attribute("wheel", "type", "left"), tempWheel)))
             dashboard.setLeftWheel(tempWheel);
-
         if (ISOK(wRet) && ISOK(wRet = m_Wheel.buildWheel(tempNode.find_child_by_attribute("wheel", "type", "aux"), tempWheel)))
             dashboard.setAuxWheel(tempWheel);
 
@@ -185,13 +155,20 @@ RA_ERROR XMLDashboardHelper::load(const std::string &sXML, Dashboard &dashboard)
         if (ISOK(wRet) && ISOK(wRet = m_Contact.buildContact(tempNode.find_child_by_attribute("contact", "type", "left"), tempContact)))
             dashboard.setLeftContact(tempContact);
     }
+    else
+    {
+        std::cout << "XML [" << sXML << "] parsed with errors, attr value: [" << m_Document.child("node").attribute("attr").value() << "]\n";
+        std::cout << "Error description: " << result.description() << "\n";
+        std::cout << "Error offset: " << result.offset << " (error at [...]\n\n";
+    }
 
     return wRet;
 }
 
 bool XMLDashboardHelper::genXMLString(const Dashboard &dashboard, std::string &sXML)
 {
-    m_Document.load("<?xml version=\"1.0\" ?>");
+    m_Document.reset();
+    m_StringWriter.XMLText.clear();
 
     pugi::xml_node  mainNode            = m_Document.append_child("dashboard");
 
@@ -249,7 +226,7 @@ RA_ERROR XMLOrderHelper::load(const std::string &sXML, nxt_adventurer::Order &or
 
     order.order = strtol(mainNode.child("order").attribute("value").value(), &c, 0);
 
-     if(ISOK(wRet) && ISOK(wRet = CSTRTOD(mainNode.child("effort").attribute("value").value(), fTempEffort)))
+    if(ISOK(wRet) && ISOK(wRet = CSTRTOD(mainNode.child("effort").attribute("value").value(), fTempEffort)))
         order.effort = fTempEffort;
 
     if (ISOK(wRet))
@@ -276,6 +253,7 @@ bool XMLOrderHelper::genXMLString(const nxt_adventurer::Order &order, std::strin
 
     m_Document.save(m_StringWriter);
     sXML = m_StringWriter.XMLText;
+    m_StringWriter.XMLText.clear();
 
     return true;
 }
