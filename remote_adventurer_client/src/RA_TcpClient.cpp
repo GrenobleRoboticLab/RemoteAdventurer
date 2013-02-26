@@ -15,17 +15,22 @@ TcpClient::TcpClient(QObject * parent)
 
 TcpClient::~TcpClient()
 {
+    std::cout << "Destroying TcpClient" << std::endl;
+    if (isConnected())
+        m_Socket.close();
 }
 
 void TcpClient::connect(const QString &sIp, int nPort)
 {
     m_sIp   =   sIp;
     m_nPort =   nPort;
+    std::cout << "Connecting to remote Host..." << std::endl;
     m_Socket.connectToHost(QHostAddress(sIp), m_nPort);
 }
 
 void TcpClient::sendStr(const QString &sText)
 {
+    std::cout << "Sending datas over socket" << std::endl;
     QTextStream stream(&m_Socket);
     stream << sText;
 }

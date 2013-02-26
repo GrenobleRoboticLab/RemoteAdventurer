@@ -10,16 +10,35 @@ RemoteClientApp::RemoteClientApp(int argc, char **argv) : QApplication(argc, arg
     QObject::connect(&m_TcpClient, SIGNAL(dashUpdated(Dashboard)), &m_MainWindow, SLOT(updateDash(Dashboard)), Qt::AutoConnection);
 }
 
+RemoteClientApp::~RemoteClientApp() { std::cout << "Destroying RemoteClientApp" << std::endl; }
+
 int RemoteClientApp::process()
 {
     m_ConnectDialog.exec();
-    m_MainWindow.show();
 
-    return exec();
+    if (m_TcpClient.isConnected())
+        return exec();
+    std::cout << "No connection found... Quitting" << std::endl;
+
+    return 0;
+}
+
+void RemoteClientApp::attemptConnection(QString sIp, QString sInt)
+{
+    std::cout << "Ask for new connection at : " << sIp.toStdString() << " on port : " << sInt.toStdString() << std::endl;
+    m_TcpClient.connect(sIp, sInt.toInt());
+}
+
+void RemoteClientApp::attemptQuit()
+{
+    std::cout << "Killing connection Dialog" << std::endl;
+    m_ConnectDialog.done(0);
 }
 
 void RemoteClientApp::connected()
 {
-    std::cout << "Force Dialog destruction" << std::endl;
-    m_ConnectDialog.done(1);
+    std::cout << "Connection success... Killing connection Dialog" << std::endl;
+    m_ConnectDialog.done(0);
+    std::cout << "Showing MainWindow" << std::endl;
+    m_MainWindow.show();
 }

@@ -34,7 +34,7 @@ void NXTDashboard::onDashboardUpdate(Dashboard * pDashboard)
 
     if (pDashboard
     && (m_OldDashboard != *pDashboard)
-    && (m_Timer.elapsed() >= 500))
+    && (m_Timer.elapsed() >= 100))
     {
         m_XMLDashboardHelper.genXMLString(*pDashboard, sXML);
         QString sqXML(sXML.c_str());

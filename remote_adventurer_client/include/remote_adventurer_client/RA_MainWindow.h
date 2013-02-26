@@ -18,13 +18,9 @@ public:
     WheelViewer(QWidget * parent = NULL);
     ~WheelViewer() { release(); }
 
-    QWidget*            getWidget() { return m_pWidget; }
-
     void                update(const Wheel & wheel);
 
 private:
-    QWidget*            m_pWidget;
-
     QLabel*             m_pName;
     QLabel*             m_pEffortValue;
     QLabel*             m_pVelocityValue;
@@ -47,7 +43,7 @@ public:
     void                update(const Color & color);
 
 private:
-    QPalette            m_pal;
+    QPalette            m_Pal;
 };
 
 class ContactViewer : public QWidget
@@ -59,22 +55,40 @@ public:
     void                update(const Contact & contact);
 
 private:
-    QPalette            m_pal;
+    QPalette            m_Pal;
 };
 
-class UltrasonicViewer : public QVBoxLayout
+class UltrasonicViewer : public QGraphicsView
 {
     Q_OBJECT
 public:
     UltrasonicViewer(QWidget * parent = NULL);
     ~UltrasonicViewer() { release(); }
 
-    QWidget*            getWidget() { return m_pWidget; }
+    void             update(const Ultrasonic & ultrasonic);
+
+protected:
+    virtual void            resizeEvent(QResizeEvent * event);
 
 private:
-    QWidget*            m_pWidget;
+    QPalette                m_Pal;
+    QGraphicsScene*         m_pScene;
 
-    void                release() { ; }
+    QGraphicsPolygonItem*   m_pBoundedRange;
+    QGraphicsPolygonItem*   m_pPolyRange;
+
+    QGraphicsTextItem*      m_pTextMinrange;
+    QGraphicsTextItem*      m_pTextMaxrange;
+    QGraphicsTextItem*      m_pTextRange;
+
+    QLinearGradient         m_LinearGradient;
+    Ultrasonic              m_LastUltrasonic;
+
+    double                  computeOp(double dAngle, double dAd);
+    double                  computeAd(double dValue, double dMaxValue);
+
+    void                    release();
+    void                    releaseScene();
 };
 
 class RobotViewer : public QGridLayout
@@ -84,12 +98,12 @@ public:
     RobotViewer(QWidget * parent = NULL);
     ~RobotViewer() { Release(); }
 
-    QWidget*            getWidget() { return m_pWidget; }
-
     void                update(const Dashboard & dashboard);
 
 private:
-    QWidget*            m_pWidget;
+    QWidget             m_RWWidget;
+    QWidget             m_LWWidget;
+    QWidget             m_AWWidget;
 
     WheelViewer*        m_pRightWheel;
     WheelViewer*        m_pLeftWheel;
@@ -109,6 +123,7 @@ private:
     void ReleaseColor();
     void ReleaseRightContact();
     void ReleaseLeftContact();
+    void ReleaseUltrasonic();
 };
 
 class MainWindow : public QMainWindow
@@ -116,9 +131,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     MainWindow(QWidget *parent = NULL);
-    ~MainWindow() { Release(); }
-
-    QWidget*            getWidget() { return m_pWidget; }
+    ~MainWindow();
 
 signals:
     
@@ -129,11 +142,10 @@ public slots:
 protected:
 
 private:
-    QWidget*            m_pWidget;
+    QWidget             m_Widget;
     RobotViewer*        m_pRobotViewer;
 
     void Release();
-    void ReleaseWidget();
     void ReleaseRobotViewer();
 };
 

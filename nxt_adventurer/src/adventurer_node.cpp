@@ -31,7 +31,7 @@ private:
     // fait avancer ou reculer le robot
     void move(float fEffort = 0.0, bool bAhead = true);
     // fait tourner le robots à droite ou à gauche
-    void turn(float fEffort = 0.0, bool bRight = true);    
+    void turn(float fEffort = 0.0, bool bRight = true);
 };
 
 void Adventurer::init()

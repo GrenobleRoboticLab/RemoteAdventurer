@@ -1,4 +1,5 @@
 #include "remote_adventurer_client/RA_ConnectDialog.h"
+#include <iostream>
 
 using namespace RemoteAdventurerCLient;
 
@@ -29,6 +30,12 @@ ConnectDialog::ConnectDialog(QWidget *parent) : QDialog(parent)
 
     setLayout(m_pGrid);
     setWindowTitle("Connect");
+}
+
+ConnectDialog::~ConnectDialog()
+{
+    std::cout << "Destroying ConnectDialog" << std::endl;
+    Release();
 }
 
 void ConnectDialog::quitClicked()

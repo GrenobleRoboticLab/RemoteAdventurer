@@ -12,13 +12,13 @@ class RemoteClientApp : public QApplication
     Q_OBJECT
 public:
     RemoteClientApp(int argc, char** argv);
-    ~RemoteClientApp() { ; }
+    ~RemoteClientApp();
 
     int             process();
 
 private slots:
-    void            attemptConnection(QString sIp, QString sInt) { m_TcpClient.connect(sIp, sInt.toInt()); }
-    void            attemptQuit() { exit(0); }
+    void            attemptConnection(QString sIp, QString sInt);
+    void            attemptQuit();
     void            connected();
 
 private:

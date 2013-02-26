@@ -10,9 +10,11 @@ class ConnectDialog : public QDialog
     Q_OBJECT
 public:
     ConnectDialog(QWidget * parent = NULL);
-    ~ConnectDialog() { Release(); }
+    ~ConnectDialog();
 
     void launch() { exec(); }
+    void Release();
+
 signals:
     void attemptConnection(QString sIp, QString sInt);
     void attemptQuit();
@@ -33,7 +35,6 @@ private:
 
     QGridLayout*    m_pGrid;
 
-    void Release();
     void ReleaseIpLabel();
     void ReleaseIpLine();
     void ReleasePortLabel();
