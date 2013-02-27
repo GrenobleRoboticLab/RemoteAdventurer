@@ -33,6 +33,7 @@ void TcpClient::sendStr(const QString &sText)
     std::cout << "Sending datas over socket" << std::endl;
     QTextStream stream(&m_Socket);
     stream << sText;
+    m_Socket.waitForBytesWritten(-1);
 }
 
 void TcpClient::connectionSuccess()

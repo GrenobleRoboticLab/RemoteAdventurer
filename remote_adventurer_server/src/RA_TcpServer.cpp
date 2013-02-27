@@ -72,6 +72,7 @@ void TcpServer::sendStr(const QString &sValue)
     {
         QTextStream stream(m_pSocket);
         stream << sValue << endl;
+        m_pSocket->waitForBytesWritten(-1);
     }
 }
 
