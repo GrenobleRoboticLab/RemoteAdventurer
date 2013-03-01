@@ -104,7 +104,7 @@ ContactViewer::ContactViewer(QWidget * parent) : QWidget(parent)
     setAutoFillBackground(true);
     m_Pal.setColor(QPalette::Background, QColor(6, 141, 41));
     setPalette(m_Pal);
-    setMinimumSize(50, 50);
+    setMinimumSize(100, 100);
     setMaximumHeight(200);
 }
 
@@ -165,6 +165,10 @@ void UltrasonicViewer::update(const Ultrasonic &ultrasonic)
                 << QPointF(xMid - computeOp(m_LastUltrasonic.getSpreadAngle(), dAd), this->size().height() - dAd)
                 << QPointF(xMid + computeOp(m_LastUltrasonic.getSpreadAngle(), dAd), this->size().height() - dAd);
     m_pPolyRange->setPolygon(rangePoly);
+    m_LinearGradient.setStart(xMid, this->size().height());
+    m_LinearGradient.setFinalStop(xMid, 0);
+    m_pPolyRange->setBrush(QBrush(m_LinearGradient));
+
 
     m_pTextRange->setPos(xMid + computeOp(m_LastUltrasonic.getSpreadAngle(), dAd), this->size().height() - dAd);
     m_pTextRange->setPlainText(QString("Range : ") + QString::number(m_LastUltrasonic.getRange()) + QString("m"));
@@ -175,7 +179,7 @@ void UltrasonicViewer::update(const Ultrasonic &ultrasonic)
 void UltrasonicViewer::resizeEvent(QResizeEvent *event)
 {
     QSize size = event->size();
-    m_pScene->setSceneRect(0, 0, size.width()-2, size.height()-2);
+    m_pScene->setSceneRect(0, 0, size.width(), size.height());
     m_pTextMinrange->setPos(0, size.height()-25);
     m_pTextRange->setPos(size.width() / 2, size.height() / 2);
     update(m_LastUltrasonic);
@@ -221,6 +225,10 @@ RobotViewer::RobotViewer(QWidget *parent) : QGridLayout(parent)
     m_pRightContact = new ContactViewer;
     m_pLeftContact  = new ContactViewer;
 
+    m_pRWheelMeter   = new WheelView;
+    m_pLWheelMeter   = new WheelView;
+    m_pAWheelMeter   = new WheelView;
+
     if (m_pUltrasonic)
         addWidget(m_pUltrasonic, 0, 0, 2, 6);
 
@@ -250,6 +258,15 @@ RobotViewer::RobotViewer(QWidget *parent) : QGridLayout(parent)
         m_RWWidget.setLayout(m_pRightWheel);
         addWidget(&m_RWWidget, 3, 4, 1, 2);
     }
+
+    if(m_pRWheelMeter)
+        addWidget(m_pRWheelMeter, 4, 4, 1, 2);
+
+    if(m_pLWheelMeter)
+        addWidget(m_pLWheelMeter, 4, 0, 1, 2);
+
+    if(m_pAWheelMeter)
+        addWidget(m_pAWheelMeter, 4, 2, 1, 2);
 }
 
 void RobotViewer::update(const Dashboard &dashboard)
@@ -343,7 +360,7 @@ MainWindow::MainWindow(QWidget *parent) :
         setCentralWidget(&m_Widget);
     }
 
-    setMinimumSize(500, 450);
+    setMinimumSize(300, 300);
 
     QPalette pal;
     pal.setColor(QPalette::Background, QColor(73, 73, 73));

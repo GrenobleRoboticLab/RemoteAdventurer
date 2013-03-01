@@ -58,5 +58,6 @@ void TcpClient::readServerMsg()
     {
         emit dashUpdated(m_Dash);
     }
-    else std::cout << "Unable to load received datas." << std::endl;
+    else
+        std::cout << "Unable to load received datas." << std::endl;
 }

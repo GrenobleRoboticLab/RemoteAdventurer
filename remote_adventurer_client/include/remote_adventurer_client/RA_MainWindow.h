@@ -6,6 +6,8 @@
 
 #include <QtGui>
 
+#include "RA_WheelMeter.h"
+
 using namespace RemoteAdventurer;
 
 namespace RemoteAdventurerCLient
@@ -115,6 +117,10 @@ private:
     ContactViewer*      m_pLeftContact;
 
     UltrasonicViewer*   m_pUltrasonic;
+
+    WheelView*          m_pRWheelMeter;
+    WheelView*          m_pLWheelMeter;
+    WheelView*          m_pAWheelMeter;
 
     void Release();
     void ReleaseRightWheel();
