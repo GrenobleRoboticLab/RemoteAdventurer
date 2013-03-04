@@ -14,12 +14,10 @@ using namespace RemoteAdventurer;
 
 namespace RemoteAdventurerCLient {
 
-class GraphicsWheelMeterItem : public QGraphicsEllipseItem {
+class WheelMeter : public QWidget {
 public:
-    GraphicsWheelMeterItem (qreal x = 0, qreal y = 0, qreal width = 0, qreal height = 0, QGraphicsItem * parent = NULL);
-    virtual ~GraphicsWheelMeterItem() { ; }
-
-    void setArc(qreal x = 0, qreal y = 0, qreal width = 0, qreal height = 0);
+    WheelMeter (QWidget * parent = NULL);
+    virtual ~WheelMeter() { ; }
 
     int     maxSpeed()          const { return m_MaxSpeed;          }
     int     maxEffort()         const { return m_MaxEffort;         }
@@ -29,6 +27,9 @@ public:
     QPen    effortPen()         const { return m_EffortPen;         }
     QColor  posDefaultColor()   const { return m_PosDefaultColor;   }
     Wheel   wheel()             const { return m_Wheel;             }
+    QRectF  rect()              const { return m_Rect;              }
+    double  startAngle()        const { return m_dStartAngle;       }
+    double  spanAngle()         const { return m_dSpanAngle;        }
 
     void    setMaxSpeed(int maxSpeed)                   { m_MaxSpeed        = maxSpeed;     }
     void    setMaxEffort(int maxEffort)                 { m_MaxEffort       = maxEffort;    }
@@ -37,11 +38,22 @@ public:
     void    setEffortBrush(const QBrush & brush)        { m_EffortBrush     = brush;        }
     void    setEffortPen(const QPen & pen)              { m_EffortPen       = pen;          }
     void    setPosDefaultColor(const QColor & color)    { m_PosDefaultColor = color;        }
-    void    setWheel(const Wheel & wheel)               { m_Wheel           = wheel;        }
+    void    setRect(const QRectF & rect)                { m_Rect            = rect;         }
+    void    setStartAngle(double dAngle)                { m_dStartAngle     = dAngle;       }
+    void    setSpanAngle(double dAngle)                 { m_dSpanAngle      = dAngle;       }
+    void    setRect(double x, double y, double width, double height) { setRect(QRect(x, y, width, height)); }
+
+    void    update(const Wheel & wheel);
+
+protected:
+    void paintEvent(QPaintEvent *event);
 
 private:
     int     m_MaxSpeed;
     int     m_MaxEffort;
+    double  m_dStartAngle;
+    double  m_dSpanAngle;
+
 
     QBrush  m_SpeedBrush;
     QPen    m_SpeedPen;
@@ -50,36 +62,14 @@ private:
     QPen    m_EffortPen;
 
     QColor  m_PosDefaultColor;
-
     Wheel   m_Wheel;
 
-    void    paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget);
+    QRectF  m_Rect;
 
     void    drawSpeedMeter(QPainter* painter);
     void    drawEffortMeter(QPainter* painter);
     void    drawPosition(QPainter* painter);
-};
-
-class WheelView : public QGraphicsView
-{
-    Q_OBJECT
-public:
-    WheelView(QWidget *parent = 0);
-    virtual ~WheelView() { release(); }
-    
-signals:
-    
-public slots:
-
-protected:
-    virtual void            resizeEvent(QResizeEvent * event);
-
-private:
-    QGraphicsScene*         m_pScene;
-    GraphicsWheelMeterItem* m_pWheelMeter;
-
-    void                    release();
-    void                    releaseScene();
+    void    drawReverseWarn(QPainter* painter);
 };
 
 }

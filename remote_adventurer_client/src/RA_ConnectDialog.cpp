@@ -35,7 +35,7 @@ ConnectDialog::ConnectDialog(QWidget *parent) : QDialog(parent)
 ConnectDialog::~ConnectDialog()
 {
     std::cout << "Destroying ConnectDialog" << std::endl;
-    Release();
+    release();
 }
 
 void ConnectDialog::quitClicked()
@@ -48,60 +48,60 @@ void ConnectDialog::okClicked()
     emit attemptConnection(m_pIpLine->text(), m_pPortLine->text());
 }
 
-void ConnectDialog::Release()
+void ConnectDialog::release()
 {
-    ReleaseIpLabel();
-    ReleaseIpLine();
-    ReleasePortLabel();
-    ReleasePortLine();
-    ReleaseOkButton();
-    ReleaseQuitButton();
-    ReleaseGrid();
+    releaseIpLabel();
+    releaseIpLine();
+    releasePortLabel();
+    releasePortLine();
+    releaseOkButton();
+    releaseQuitButton();
+    releaseGrid();
 }
 
-void ConnectDialog::ReleaseIpLabel()
+void ConnectDialog::releaseIpLabel()
 {
     if (m_pIpLabel)
         delete m_pIpLabel;
     m_pIpLabel = NULL;
 }
 
-void ConnectDialog::ReleaseIpLine()
+void ConnectDialog::releaseIpLine()
 {
     if (m_pIpLine)
         delete m_pIpLine;
     m_pIpLine = NULL;
 }
 
-void ConnectDialog::ReleasePortLabel()
+void ConnectDialog::releasePortLabel()
 {
     if (m_pPortLabel)
         delete m_pPortLabel;
     m_pPortLabel = NULL;
 }
 
-void ConnectDialog::ReleasePortLine()
+void ConnectDialog::releasePortLine()
 {
     if (m_pPortLine)
         delete m_pPortLine;
     m_pPortLine = NULL;
 }
 
-void ConnectDialog::ReleaseOkButton()
+void ConnectDialog::releaseOkButton()
 {
     if (m_pOkButton)
         delete m_pOkButton;
     m_pOkButton = NULL;
 }
 
-void ConnectDialog::ReleaseQuitButton()
+void ConnectDialog::releaseQuitButton()
 {
     if (m_pQuitButton)
         delete m_pQuitButton;
     m_pQuitButton = NULL;
 }
 
-void ConnectDialog::ReleaseGrid()
+void ConnectDialog::releaseGrid()
 {
     if (m_pGrid)
         delete m_pGrid;

@@ -12,16 +12,16 @@ public:
     ConnectDialog(QWidget * parent = NULL);
     ~ConnectDialog();
 
-    void launch() { exec(); }
-    void Release();
+    void            launch() { exec(); }
+    void            release();
 
 signals:
-    void attemptConnection(QString sIp, QString sInt);
-    void attemptQuit();
+    void            attemptConnection(QString sIp, QString sInt);
+    void            attemptQuit();
 
 private slots:
-    void okClicked();
-    void quitClicked();
+    void            okClicked();
+    void            quitClicked();
 
 private:
     QLabel*         m_pIpLabel;
@@ -35,13 +35,13 @@ private:
 
     QGridLayout*    m_pGrid;
 
-    void ReleaseIpLabel();
-    void ReleaseIpLine();
-    void ReleasePortLabel();
-    void ReleasePortLine();
-    void ReleaseOkButton();
-    void ReleaseQuitButton();
-    void ReleaseGrid();
+    void            releaseIpLabel();
+    void            releaseIpLine();
+    void            releasePortLabel();
+    void            releasePortLine();
+    void            releaseOkButton();
+    void            releaseQuitButton();
+    void            releaseGrid();
 };
 
 

@@ -16,7 +16,7 @@ static const QPoint speedHand[3] = {
 
 static double test = SPEED_MAX / 4;
 
-GraphicsWheelMeterItem::GraphicsWheelMeterItem(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent) : QGraphicsEllipseItem(x, y, width, height, parent)
+WheelMeter::WheelMeter(QWidget *parent) : QWidget(parent)// QGraphicsEllipseItem(x, y, width, height, parent)
 {
     m_MaxSpeed          = SPEED_MAX;
     m_MaxEffort         = EFFORT_MAX;
@@ -25,30 +25,28 @@ GraphicsWheelMeterItem::GraphicsWheelMeterItem(qreal x, qreal y, qreal width, qr
     m_EffortBrush       = QBrush(QColor(141, 41, 5));
     m_EffortPen         = QPen(QColor(141, 41, 5), 2);
     m_PosDefaultColor   = Qt::white;
-
-    m_Wheel.setEffort(0);
-    m_Wheel.setVelocity(0);
 }
 
-void GraphicsWheelMeterItem::setArc(qreal x, qreal y, qreal width, qreal height)
-{
-    setRect(x, y, width, height);
+void WheelMeter::paintEvent(QPaintEvent *event) {
+    int side = qMin(width(), height());
+
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.translate(width() / 2, height() / 2);
+    painter.scale(side / 200.0, side / 200.0);
+
+    if (m_Wheel.getEffort() < 0  || m_Wheel.getVelocity() < 0)
+        drawReverseWarn(&painter);
+
+    drawSpeedMeter(&painter);
+    drawEffortMeter(&painter);
+    drawPosition(&painter);
 }
 
-void GraphicsWheelMeterItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    int side = qMin(rect().width(), rect().height());
-
-    painter->setRenderHint(QPainter::Antialiasing);
-    painter->translate(rect().width() / 2, rect().height() / 2);
-    painter->scale(side / 200.0, side / 200.0);
-
-    drawSpeedMeter(painter);
-    drawEffortMeter(painter);
-}
-
-void GraphicsWheelMeterItem::drawEffortMeter(QPainter *painter)
+void WheelMeter::drawEffortMeter(QPainter *painter)
 {
     double dBaseRotate = spanAngle() / EFFORT_MAX;
+    double dEffort = (m_Wheel.getEffort() >= 0) ? m_Wheel.getEffort() : -m_Wheel.getEffort();
 
     painter->save();
 
@@ -57,7 +55,7 @@ void GraphicsWheelMeterItem::drawEffortMeter(QPainter *painter)
 
     // Drawing hand
     painter->save();
-    painter->rotate((dBaseRotate * abs(m_Wheel.getEffort())) + 90 + startAngle());
+    painter->rotate((dBaseRotate * dEffort) + 90 + startAngle());
     painter->drawConvexPolygon(effortHand, 3);
     painter->restore();
 
@@ -74,7 +72,7 @@ void GraphicsWheelMeterItem::drawEffortMeter(QPainter *painter)
     painter->restore();
 }
 
-void GraphicsWheelMeterItem::drawSpeedMeter(QPainter *painter)
+void WheelMeter::drawSpeedMeter(QPainter *painter)
 {
     double dBaseRotate = spanAngle() / SPEED_MAX;
 
@@ -102,49 +100,37 @@ void GraphicsWheelMeterItem::drawSpeedMeter(QPainter *painter)
     painter->restore();
 }
 
-void GraphicsWheelMeterItem::drawPosition(QPainter *painter)
+void WheelMeter::drawPosition(QPainter *painter)
 {
+    QString sPosText    = QString("Position : ") + QString::number(m_Wheel.getPosition());
+    QString sNameText   = QString::fromStdString(m_Wheel.getName());
+    QFontMetrics fm     = painter->fontMetrics();
+    QPointF posPoint    = QPointF(-fm.width(sPosText)/2, 60);
+    QPointF namePoint   = QPointF(-fm.width(sNameText)/2, 80);
+
     painter->save();
 
-
+    painter->setPen(m_PosDefaultColor);
+    painter->drawText(posPoint, sPosText);
+    painter->drawText(namePoint, sNameText);
 
 
     painter->restore();
 }
 
-WheelView::WheelView(QWidget *parent) : QGraphicsView(parent)
+void WheelMeter::drawReverseWarn(QPainter *painter)
 {
-    m_pScene = new QGraphicsScene;
-
-    setBackgroundBrush(QColor(73, 73, 73));
-    setScene(m_pScene);
-
-    m_pWheelMeter = new GraphicsWheelMeterItem;
-    m_pWheelMeter->setBrush(QColor(255, 255, 102));
-    m_pWheelMeter->setPen(QPen(QColor(255, 255, 102), 5));
-    m_pWheelMeter->setStartAngle(150);
-    m_pWheelMeter->setSpanAngle(240);
-    m_pScene->addItem(m_pWheelMeter);
+    QString sText("/!\\Reverse !");
+    QFontMetrics fm = painter->fontMetrics();
+    painter->setPen(Qt::red);
+    painter->drawText(-fm.width(sText) / 2, 0, sText);
 }
 
-void WheelView::resizeEvent(QResizeEvent *event)
+void WheelMeter::update(const Wheel &wheel)
 {
-    QSize size = event->size();
-    m_pScene->setSceneRect(0, 0, size.width(), size.height());
-    double radius = 0.75 * (size.width() + size.height()) / 2.0;
-
-    m_pWheelMeter->setArc((size.width() / 2.0) - (radius / 2.0), (size.height() / 2.0) - (radius / 2.0), size.width(), size.height());
-}
-
-void WheelView::release()
-{
-    releaseScene();
-}
-
-void WheelView::releaseScene()
-{
-    if (m_pScene)
-        delete m_pScene;
-    m_pScene        = NULL;
-    m_pWheelMeter   = NULL;
+    if (!m_Wheel.compare(wheel))
+    {
+        m_Wheel = wheel;
+        repaint();
+    }
 }

@@ -2,40 +2,15 @@
 #define MAINWINDOW_H
 
 #include <nxt_adventurer/RA_Dashboard.h>
-#include <iostream>
+#include "RA_WheelMeter.h"
+#include "RA_UltrasonicViewer.h"
 
 #include <QtGui>
-
-#include "RA_WheelMeter.h"
 
 using namespace RemoteAdventurer;
 
 namespace RemoteAdventurerCLient
 {
-
-class WheelViewer : public QVBoxLayout
-{
-    Q_OBJECT
-public:
-    WheelViewer(QWidget * parent = NULL);
-    ~WheelViewer() { release(); }
-
-    void                update(const Wheel & wheel);
-
-private:
-    QLabel*             m_pName;
-    QLabel*             m_pEffortValue;
-    QLabel*             m_pVelocityValue;
-    QLabel*             m_pPositionValue;
-
-    void                release();
-    void                releasePosition();
-    void                releaseVelocity();
-    void                releaseEffort();
-    void                releaseName();
-    void                releaseWidget();
-};
-
 class ColorViewer : public QWidget
 {
     Q_OBJECT
@@ -60,39 +35,6 @@ private:
     QPalette            m_Pal;
 };
 
-class UltrasonicViewer : public QGraphicsView
-{
-    Q_OBJECT
-public:
-    UltrasonicViewer(QWidget * parent = NULL);
-    ~UltrasonicViewer() { release(); }
-
-    void             update(const Ultrasonic & ultrasonic);
-
-protected:
-    virtual void            resizeEvent(QResizeEvent * event);
-
-private:
-    QPalette                m_Pal;
-    QGraphicsScene*         m_pScene;
-
-    QGraphicsPolygonItem*   m_pBoundedRange;
-    QGraphicsPolygonItem*   m_pPolyRange;
-
-    QGraphicsTextItem*      m_pTextMinrange;
-    QGraphicsTextItem*      m_pTextMaxrange;
-    QGraphicsTextItem*      m_pTextRange;
-
-    QLinearGradient         m_LinearGradient;
-    Ultrasonic              m_LastUltrasonic;
-
-    double                  computeOp(double dAngle, double dAd);
-    double                  computeAd(double dValue, double dMaxValue);
-
-    void                    release();
-    void                    releaseScene();
-};
-
 class RobotViewer : public QGridLayout
 {
     Q_OBJECT
@@ -103,13 +45,9 @@ public:
     void                update(const Dashboard & dashboard);
 
 private:
-    QWidget             m_RWWidget;
-    QWidget             m_LWWidget;
-    QWidget             m_AWWidget;
-
-    WheelViewer*        m_pRightWheel;
-    WheelViewer*        m_pLeftWheel;
-    WheelViewer*        m_pAuxWheel;
+    WheelMeter*         m_pRightWheel;
+    WheelMeter*         m_pLeftWheel;
+    WheelMeter*         m_pAuxWheel;
 
     ColorViewer*        m_pColor;
 
@@ -117,10 +55,6 @@ private:
     ContactViewer*      m_pLeftContact;
 
     UltrasonicViewer*   m_pUltrasonic;
-
-    WheelView*          m_pRWheelMeter;
-    WheelView*          m_pLWheelMeter;
-    WheelView*          m_pAWheelMeter;
 
     void Release();
     void ReleaseRightWheel();
