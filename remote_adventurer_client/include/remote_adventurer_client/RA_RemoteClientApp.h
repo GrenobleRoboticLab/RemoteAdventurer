@@ -5,7 +5,7 @@
 #include <remote_adventurer_client/RA_ConnectDialog.h>
 #include <remote_adventurer_client/RA_TcpClient.h>
 
-namespace RemoteAdventurerCLient {
+namespace RemoteAdventurerClient {
 
 class RemoteClientApp : public QApplication
 {

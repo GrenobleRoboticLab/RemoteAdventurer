@@ -1,6 +1,6 @@
 #include "remote_adventurer_client/RA_RemoteClientApp.h"
 
-using namespace RemoteAdventurerCLient;
+using namespace RemoteAdventurerClient;
 
 RemoteClientApp::RemoteClientApp(int argc, char **argv) : QApplication(argc, argv)
 {

@@ -6,7 +6,7 @@
 
 using namespace RemoteAdventurer;
 
-namespace RemoteAdventurerCLient
+namespace RemoteAdventurerClient
 {
 
 class UltrasonicViewer : public QGraphicsView
@@ -14,7 +14,7 @@ class UltrasonicViewer : public QGraphicsView
     Q_OBJECT
 public:
     UltrasonicViewer(QWidget * parent = NULL);
-    ~UltrasonicViewer() { release(); }
+    ~UltrasonicViewer();
 
     void                    update(const Ultrasonic & ultrasonic);
 

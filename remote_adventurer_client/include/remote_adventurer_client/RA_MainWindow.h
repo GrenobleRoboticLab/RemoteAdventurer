@@ -4,18 +4,20 @@
 #include <nxt_adventurer/RA_Dashboard.h>
 #include "RA_WheelMeter.h"
 #include "RA_UltrasonicViewer.h"
+#include "RA_ControllerView.h"
 
 #include <QtGui>
 
 using namespace RemoteAdventurer;
 
-namespace RemoteAdventurerCLient
+namespace RemoteAdventurerClient
 {
 class ColorViewer : public QWidget
 {
     Q_OBJECT
 public:
     ColorViewer(QWidget * parent = NULL);
+    ~ColorViewer() { std::cout << "Destorying ColorViewer" << std::endl; }
 
     void                update(const Color & color);
 
@@ -28,6 +30,7 @@ class ContactViewer : public QWidget
     Q_OBJECT
 public:
     ContactViewer(QWidget * parent = NULL);
+    ~ContactViewer() { std::cout << "Destroying ContactViewer" << std::endl; }
 
     void                update(const Contact & contact);
 
@@ -40,7 +43,7 @@ class RobotViewer : public QGridLayout
     Q_OBJECT
 public:
     RobotViewer(QWidget * parent = NULL);
-    ~RobotViewer() { Release(); }
+    ~RobotViewer() { release(); }
 
     void                update(const Dashboard & dashboard);
 
@@ -50,20 +53,21 @@ private:
     WheelMeter*         m_pAuxWheel;
 
     ColorViewer*        m_pColor;
-
     ContactViewer*      m_pRightContact;
     ContactViewer*      m_pLeftContact;
-
     UltrasonicViewer*   m_pUltrasonic;
 
-    void Release();
-    void ReleaseRightWheel();
-    void ReleaseLeftWheel();
-    void ReleaseAuxWheel();
-    void ReleaseColor();
-    void ReleaseRightContact();
-    void ReleaseLeftContact();
-    void ReleaseUltrasonic();
+    ControllerView*     m_pController;
+
+    void                release();
+    void                releaseRightWheel();
+    void                releaseLeftWheel();
+    void                releaseAuxWheel();
+    void                releaseColor();
+    void                releaseRightContact();
+    void                releaseLeftContact();
+    void                releaseUltrasonic();
+    void                releaseController();
 };
 
 class MainWindow : public QMainWindow
@@ -85,8 +89,8 @@ private:
     QWidget             m_Widget;
     RobotViewer*        m_pRobotViewer;
 
-    void Release();
-    void ReleaseRobotViewer();
+    void                release();
+    void                releaseRobotViewer();
 };
 
 }

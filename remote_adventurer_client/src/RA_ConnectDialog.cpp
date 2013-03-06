@@ -1,7 +1,7 @@
 #include "remote_adventurer_client/RA_ConnectDialog.h"
 #include <iostream>
 
-using namespace RemoteAdventurerCLient;
+using namespace RemoteAdventurerClient;
 
 ConnectDialog::ConnectDialog(QWidget *parent) : QDialog(parent)
 {

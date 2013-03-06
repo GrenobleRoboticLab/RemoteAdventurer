@@ -1,22 +1,20 @@
 #include "remote_adventurer_client/RA_WheelMeter.h"
 
-using namespace RemoteAdventurerCLient;
+using namespace RemoteAdventurerClient;
 
 static const QPoint effortHand[3] = {
-    QPoint(1, 2),
-    QPoint(-1, 2),
-    QPoint(0, -EFFORT_WIDTH)
-};
+                                        QPoint(1, 2),
+                                        QPoint(-1, 2),
+                                        QPoint(0, -EFFORT_WIDTH)
+                                    };
 
-static const QPoint speedHand[3] = {
-    QPoint(1, 2),
-    QPoint(-1, 2),
-    QPoint(0, -SPEED_WIDTH)
-};
+static const QPoint speedHand[3] =  {
+                                        QPoint(1, 2),
+                                        QPoint(-1, 2),
+                                        QPoint(0, -SPEED_WIDTH)
+                                    };
 
-static double test = SPEED_MAX / 4;
-
-WheelMeter::WheelMeter(QWidget *parent) : QWidget(parent)// QGraphicsEllipseItem(x, y, width, height, parent)
+WheelMeter::WheelMeter(QWidget *parent) : QWidget(parent)
 {
     m_MaxSpeed          = SPEED_MAX;
     m_MaxEffort         = EFFORT_MAX;
@@ -27,7 +25,13 @@ WheelMeter::WheelMeter(QWidget *parent) : QWidget(parent)// QGraphicsEllipseItem
     m_PosDefaultColor   = Qt::white;
 }
 
-void WheelMeter::paintEvent(QPaintEvent *event) {
+WheelMeter::~WheelMeter()
+{
+    std::cout << "Destroying WheelMeter" << std::endl;
+}
+
+void WheelMeter::paintEvent(QPaintEvent *event)
+{
     int side = qMin(width(), height());
 
     QPainter painter(this);

@@ -1,7 +1,7 @@
 #include "remote_adventurer_client/RA_MainWindow.h"
 #include <QtAlgorithms>
 
-using namespace RemoteAdventurerCLient;
+using namespace RemoteAdventurerClient;
 
 ColorViewer::ColorViewer(QWidget * parent) : QWidget(parent)
 {
@@ -54,6 +54,8 @@ RobotViewer::RobotViewer(QWidget *parent) : QGridLayout(parent)
     m_pRightContact = new ContactViewer;
     m_pLeftContact  = new ContactViewer;
 
+    m_pController   = new ControllerView;
+
     if (m_pUltrasonic)
         addWidget(m_pUltrasonic, 0, 0, 2, 6);
 
@@ -74,6 +76,9 @@ RobotViewer::RobotViewer(QWidget *parent) : QGridLayout(parent)
 
     if (m_pRightWheel)
         addWidget(m_pRightWheel, 3, 4, 1, 2);
+
+    if(m_pController)
+        addWidget(m_pController, 0, 7, 4, 3);
 }
 
 void RobotViewer::update(const Dashboard &dashboard)
@@ -96,64 +101,72 @@ void RobotViewer::update(const Dashboard &dashboard)
         m_pColor->update(dashboard.getColor());
 }
 
-void RobotViewer::Release()
+void RobotViewer::release()
 {
-    ReleaseRightWheel();
-    ReleaseLeftWheel();
-    ReleaseAuxWheel();
-    ReleaseColor();
-    ReleaseRightContact();
-    ReleaseLeftContact();
-    ReleaseUltrasonic();
+    releaseRightWheel();
+    releaseLeftWheel();
+    releaseAuxWheel();
+    releaseColor();
+    releaseRightContact();
+    releaseLeftContact();
+    releaseUltrasonic();
+    releaseController();
 }
 
-void RobotViewer::ReleaseRightWheel()
+void RobotViewer::releaseRightWheel()
 {
     if(m_pRightWheel)
         delete m_pRightWheel;
     m_pRightWheel = NULL;
 }
 
-void RobotViewer::ReleaseLeftWheel()
+void RobotViewer::releaseLeftWheel()
 {
     if(m_pLeftWheel)
         delete m_pLeftWheel;
     m_pLeftWheel = NULL;
 }
 
-void RobotViewer::ReleaseAuxWheel()
+void RobotViewer::releaseAuxWheel()
 {
     if(m_pAuxWheel)
         delete m_pAuxWheel;
     m_pAuxWheel = NULL;
 }
 
-void RobotViewer::ReleaseColor()
+void RobotViewer::releaseColor()
 {
     if(m_pColor)
         delete m_pColor;
     m_pColor = NULL;
 }
 
-void RobotViewer::ReleaseRightContact()
+void RobotViewer::releaseRightContact()
 {
     if(m_pRightContact)
         delete m_pRightContact;
     m_pRightContact = NULL;
 }
 
-void RobotViewer::ReleaseLeftContact()
+void RobotViewer::releaseLeftContact()
 {
     if(m_pLeftContact)
         delete m_pLeftContact;
     m_pLeftContact = NULL;
 }
 
-void RobotViewer::ReleaseUltrasonic()
+void RobotViewer::releaseUltrasonic()
 {
     if (m_pUltrasonic)
         delete m_pUltrasonic;
     m_pUltrasonic = NULL;
+}
+
+void RobotViewer::releaseController()
+{
+    if (m_pController)
+        delete m_pController;
+    m_pController = NULL;
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -167,7 +180,7 @@ MainWindow::MainWindow(QWidget *parent) :
         setCentralWidget(&m_Widget);
     }
 
-    setMinimumSize(500, 500);
+    setMinimumSize(800, 600);
 
     QPalette pal;
     pal.setColor(QPalette::Background, QColor(73, 73, 73));
@@ -178,15 +191,15 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     std::cout << "Destroying MainWindow" << std::endl;
-    Release();
+    release();
 }
 
-void MainWindow::Release()
+void MainWindow::release()
 {
-    ReleaseRobotViewer();
+    releaseRobotViewer();
 }
 
-void MainWindow::ReleaseRobotViewer()
+void MainWindow::releaseRobotViewer()
 {
     if (m_pRobotViewer)
         delete m_pRobotViewer;

@@ -22,7 +22,8 @@ QT4_WRAP_CPP(RA_REMOTECLIENTAPP_MOC include/remote_adventurer_client/RA_MainWind
                                     include/remote_adventurer_client/RA_ConnectDialog.h
                                     include/remote_adventurer_client/RA_RemoteClientApp.h
                                     include/remote_adventurer_client/RA_WheelMeter.h
-                                    include/remote_adventurer_client/RA_UltrasonicViewer.h)
+                                    include/remote_adventurer_client/RA_UltrasonicViewer.h
+                                    include/remote_adventurer_client/RA_ControllerView.h)
 
 rosbuild_add_executable(remote_client   src/main.cpp
                                         src/RA_MainWindow.cpp
@@ -31,6 +32,7 @@ rosbuild_add_executable(remote_client   src/main.cpp
                                         src/RA_RemoteClientApp.cpp
                                         src/RA_WheelMeter.cpp
                                         src/RA_UltrasonicViewer.cpp
+                                        src/RA_ControllerView.cpp
                                         ${RA_REMOTECLIENTAPP_MOC})
 
 target_link_libraries(remote_client ${QT_LIBRARIES})

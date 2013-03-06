@@ -7,7 +7,7 @@
 
 using namespace RemoteAdventurer;
 
-namespace RemoteAdventurerCLient
+namespace RemoteAdventurerClient
 {
 
 class TcpClient : public QObject

@@ -1,6 +1,6 @@
 #include "remote_adventurer_client/RA_UltrasonicViewer.h"
 
-using namespace RemoteAdventurerCLient;
+using namespace RemoteAdventurerClient;
 
 UltrasonicViewer::UltrasonicViewer(QWidget *parent) : QGraphicsView(parent)
 {
@@ -29,6 +29,12 @@ UltrasonicViewer::UltrasonicViewer(QWidget *parent) : QGraphicsView(parent)
     m_LinearGradient.setColorAt(1.0, QColor(6, 141, 81));
     m_pBoundedRange = m_pScene->addPolygon(poly, QPen(QColor(73, 73, 73), 5), QBrush(QColor(73, 73, 73)));
     m_pPolyRange = m_pScene->addPolygon(poly, QPen(), QBrush(m_LinearGradient));
+}
+
+UltrasonicViewer::~UltrasonicViewer()
+{
+    std::cout << "Destroying UltrasonicViewer" << std::endl;
+    release();
 }
 
 void UltrasonicViewer::update(const Ultrasonic &ultrasonic)

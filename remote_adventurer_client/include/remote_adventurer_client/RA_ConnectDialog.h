@@ -3,7 +3,7 @@
 
 #include <QtGui>
 
-namespace RemoteAdventurerCLient {
+namespace RemoteAdventurerClient {
 
 class ConnectDialog : public QDialog
 {

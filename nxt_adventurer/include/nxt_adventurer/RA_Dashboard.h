@@ -325,13 +325,13 @@ public:
      * @param pDashboard a pointer to the Dashboard just updated.
      * @see   Dashboard
      */
-    virtual void onDashboardUpdate(Dashboard * pDashboard) = 0;
+    virtual void                onDashboardUpdate(Dashboard * pDashboard) = 0;
 
 private:
-    boost::signals::connection m_Connection;
+    boost::signals::connection  m_Connection;
 
-    void setConnection(const boost::signals::connection & c);
-    void disconnect();
+    void                        setConnection(const boost::signals::connection & c);
+    void                        disconnect();
 };
 
 } // namespace RemoteAdventurer

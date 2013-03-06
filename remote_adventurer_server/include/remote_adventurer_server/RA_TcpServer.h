@@ -53,7 +53,7 @@ private:
 
 class TcpServer : public QTcpServer
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     TcpServer(QObject* parent = NULL, int nPort = 4000);
     ~TcpServer();

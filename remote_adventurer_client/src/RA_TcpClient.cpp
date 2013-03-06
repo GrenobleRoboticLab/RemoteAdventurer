@@ -2,7 +2,7 @@
 #include <iostream>
 #include "remote_adventurer_client/RA_TcpClient.h"
 
-using namespace RemoteAdventurerCLient;
+using namespace RemoteAdventurerClient;
 
 /* ----------------------------- TcpServer ----------------------------- */
 

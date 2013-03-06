@@ -242,7 +242,7 @@ bool XMLOrderHelper::genXMLString(const nxt_adventurer::Order &order, std::strin
     pugi::xml_node mainNode = m_Document.append_child("order");
 
     mainNode.append_child("order").append_attribute("value") = order.order;
-    mainNode.append_child("effort").append_attribute("value") = order.effort;
+    mainNode.append_child("effort").append_attribute("value") = order.effort * COEF_PERCENT;
 
     if (order.direction)
         mainNode.append_child("direction").append_attribute("value") = "true";
