@@ -5,6 +5,9 @@
 
 namespace RemoteAdventurerClient {
 
+/**
+ * This class provide dialog for Ip and Port inputs
+ */
 class ConnectDialog : public QDialog
 {
     Q_OBJECT
@@ -12,11 +15,23 @@ public:
     ConnectDialog(QWidget * parent = NULL);
     ~ConnectDialog();
 
+    /**
+     * Show this QDialog object.
+     */
     void            launch() { exec(); }
+    /**
+     * Release all members pointer.
+     */
     void            release();
 
 signals:
+    /**
+     * Send ip and port signal.
+     */
     void            attemptConnection(QString sIp, QString sInt);
+    /**
+     * Send quit signal.
+     */
     void            attemptQuit();
 
 private slots:

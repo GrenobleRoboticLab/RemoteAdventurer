@@ -8,6 +8,8 @@ RemoteClientApp::RemoteClientApp(int argc, char **argv) : QApplication(argc, arg
     QObject::connect(&m_ConnectDialog, SIGNAL(attemptQuit()), this, SLOT(attemptQuit()), Qt::AutoConnection);
     QObject::connect(&m_TcpClient, SIGNAL(connected()), this, SLOT(connected()), Qt::AutoConnection);
     QObject::connect(&m_TcpClient, SIGNAL(dashUpdated(Dashboard)), &m_MainWindow, SLOT(updateDash(Dashboard)), Qt::AutoConnection);
+
+    m_MainWindow.connect(&m_TcpClient);
 }
 
 RemoteClientApp::~RemoteClientApp() { std::cout << "Destroying RemoteClientApp" << std::endl; }

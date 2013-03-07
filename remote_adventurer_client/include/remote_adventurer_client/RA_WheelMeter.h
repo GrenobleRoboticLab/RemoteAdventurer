@@ -14,6 +14,9 @@ using namespace RemoteAdventurer;
 
 namespace RemoteAdventurerClient {
 
+/**
+ * This class shows Wheel's informations get by the server.
+ */
 class WheelMeter : public QWidget {
 public:
     WheelMeter (QWidget * parent = NULL);
@@ -46,6 +49,9 @@ public:
     void    update(const Wheel & wheel);
 
 protected:
+    /**
+     * Re-draw wheel's informations.
+     */
     void    paintEvent(QPaintEvent *event);
 
 private:

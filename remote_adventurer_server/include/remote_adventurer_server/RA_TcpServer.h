@@ -15,12 +15,18 @@ namespace RemoteAdventurerServer
 {
 class TcpServer;
 
+/**
+ * This class provides simple way to transmit xml string order to ros topic.
+ */
 class NXTOrder
 {
 public:
     NXTOrder(ros::NodeHandle & nh) : m_Commander(nh) { ; }
     ~NXTOrder() { ; }
 
+    /**
+     * Transform the given XML string into an order object and send it through a ros topic.
+     */
     bool                    treat(const std::string & sXML);
 
 private:
@@ -30,6 +36,9 @@ private:
 
 }; // class NXTOrder
 
+/**
+ * This class provides a simple way to listen NXT ros topic and send it through a TcpServer.
+ */
 class NXTDashboard : public DashboardListener, public QThread
 {
 public:
@@ -37,9 +46,18 @@ public:
     NXTDashboard(ros::NodeHandle & nh);
     ~NXTDashboard() { ; }
 
+    /**
+     * Set the TcpServer use to send Dashboard informations.
+     */
     void                    setTcpServer(TcpServer* pTcpServer = NULL) { m_pTcpServer = pTcpServer; }
 
+    /**
+     * receive Dashboard's updates notification and send it through the TcpServer.
+     */
     virtual void            onDashboardUpdate(Dashboard * pDashboard);
+    /**
+     * Start a ros::spin to catch information from ros topics.
+     */
     virtual void            run() { ros::spin(); }
 
 private:
@@ -51,6 +69,11 @@ private:
     QTime                   m_Timer;
 }; // class NXTDashboard
 
+/**
+ * This class provides a network interface to send dashboard and receive order over the network.
+ * <p>
+ * Be aware that only one client can be connected at time.
+ */
 class TcpServer : public QTcpServer
 {
     Q_OBJECT
@@ -58,10 +81,20 @@ public:
     TcpServer(QObject* parent = NULL, int nPort = 4000);
     ~TcpServer();
 
+    /**
+     * Indicate if this TcpServer is listening.
+     */
     bool                    ListenSucceed;
+    /**
+     * Start the m_NxtDashboard thread.
+     * @see NXTDashboard::run()
+     */
     void                    run() { m_NxtDashboard.start(); }
 
 public slots :
+    /**
+     * Send the given string over the network.
+     */
     void                    sendStr(const QString & sValue);
 
 private slots :

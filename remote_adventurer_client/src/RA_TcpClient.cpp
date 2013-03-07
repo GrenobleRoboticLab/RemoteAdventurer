@@ -30,10 +30,16 @@ void TcpClient::connect(const QString &sIp, int nPort)
 
 void TcpClient::sendStr(const QString &sText)
 {
-    std::cout << "Sending datas over socket" << std::endl;
     QTextStream stream(&m_Socket);
     stream << sText;
     m_Socket.waitForBytesWritten(-1);
+}
+
+void TcpClient::sendOrder(const nxt_adventurer::Order &order)
+{
+    std::string sMsg;
+    if (m_OrderHelper.genXMLString(order, sMsg))
+        sendStr(sMsg.c_str());
 }
 
 void TcpClient::connectionSuccess()

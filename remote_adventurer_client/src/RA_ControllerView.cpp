@@ -48,19 +48,36 @@ void DirGearItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     const double    dDirSize = (SCENE_DIA * DIR_RAT) / 2;
     QPointF         p;
 
+    bool            bDirection;
+    int             nOrder;
+
     if (abs(deltaX) > abs(deltaY))
     {
+        nOrder = 1;
         if (deltaX > 0)
+        {
             p = mapToParent(-dDirSize, 0);
+            bDirection = true;
+        }
         else
+        {
             p = mapToParent(dDirSize, 0);
+            bDirection = false;
+        }
     }
     else
     {
+        nOrder = 0;
         if (deltaY > 0)
+        {
             p = mapToParent(0, -dDirSize);
+            bDirection = false;
+        }
         else
+        {
             p = mapToParent(0, dDirSize);
+            bDirection = true;
+        }
     }
 
     m_PendingRect = QRectF(m_OrgPos.x() + p.x(), m_OrgPos.y() + p.y(), MOV_ELL_WIDTH, MOV_ELL_WIDTH);
@@ -70,6 +87,28 @@ void DirGearItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     m_dTimerYOff = (m_PendingRect.y() - rect().y()) / TIMER_MAX_LOOP;
     m_bIsAnimated = true;
     m_Timer.start(100);
+
+    emit newOrder(nOrder, bDirection);
+}
+
+TrackBarItem::TrackBarItem(QGraphicsItem *parent) : QGraphicsEllipseItem(parent)
+{
+    setFlag(ItemIsMovable);
+}
+
+TrackBarItem::~TrackBarItem() { ; }
+
+void TrackBarItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    double dNewX = rect().x() - (event->lastScenePos().x() - event->scenePos().x());
+    if (dNewX < m_OrgPos.x() && abs(dNewX - m_OrgPos.x()) < m_dMaxDelta)
+        setRect(dNewX, rect().y(), rect().width(), rect().height());
+}
+
+void TrackBarItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    double dDelta = m_OrgPos.x() - rect().x();
+    emit newEffort(dDelta * 3 / m_dMaxDelta);
 }
 
 ControllerView::ControllerView(QWidget* parent) : QGraphicsView(parent)
@@ -87,12 +126,20 @@ ControllerView::ControllerView(QWidget* parent) : QGraphicsView(parent)
     setBackgroundBrush(Qt::black);
     setScene(m_pScene);
     m_pScene->setSceneRect(0, 0, SCENE_DIA, SCENE_DIA);
+
     drawDir();
+    drawEff();
+
+    if(m_pDirEllipse)
+        QObject::connect(m_pDirEllipse, SIGNAL(newOrder(int,bool)), this, SLOT(newOrder(int,bool)));
+    if(m_pEffEllipse)
+        QObject::connect(m_pEffEllipse, SIGNAL(newEffort(double)), this, SLOT(newEffort(double)));
 }
 
 ControllerView::~ControllerView()
 {
-    ;
+    std::cout << "Destroying ControllerView" << std::endl;
+    release();
 }
 
 void ControllerView::resizeEvent(QResizeEvent *event)
@@ -107,6 +154,20 @@ void ControllerView::resizeEvent(QResizeEvent *event)
         dScaleFactor = (nSide / nOldSide);
 
     scale(dScaleFactor, dScaleFactor);
+}
+
+void ControllerView::newOrder(int nOrder, bool bDirection)
+{
+    m_PendingOrder.order        = nOrder;
+    m_PendingOrder.direction    = bDirection;
+
+    emit sendOrder(m_PendingOrder);
+}
+void ControllerView::newEffort(double dEffort)
+{
+    m_PendingOrder.effort = dEffort;
+
+    emit sendOrder(m_PendingOrder);
 }
 
 void ControllerView::drawDir()
@@ -128,7 +189,36 @@ void ControllerView::drawDir()
     m_pScene->addItem(m_pDirEllipse);
 }
 
+void ControllerView::drawEff()
+{
+    const double    dEffSize = SCENE_DIA * DIR_RAT;
+    double          dQuarterSize = (dEffSize / 4);
+
+    QPointF         center(SCENE_DIA - dQuarterSize, dQuarterSize);
+
+    m_pEffLine      = m_pScene->addLine(dQuarterSize, center.y(), dQuarterSize + dEffSize, center.y(), QPen(QColor(141, 5, 38), 1.5));
+
+    m_pEffEllipse   = new TrackBarItem;
+
+    m_pEffEllipse->setRect(center.x() - (MOV_ELL_WIDTH / 2), center.y() - (MOV_ELL_WIDTH / 2), MOV_ELL_WIDTH, MOV_ELL_WIDTH);
+    m_pEffEllipse->setBrush(QColor(6, 141, 41));
+
+    m_pEffEllipse->setOrgPos(QPointF(m_pEffEllipse->rect().x(), m_pEffEllipse->rect().y()));
+
+    m_pEffEllipse->setMaxDelta(m_pEffEllipse->mapToParent(SCENE_DIA - (dQuarterSize * 2), 0).x());
+
+    m_pScene->addItem(m_pEffEllipse);
+}
+
 void ControllerView::release()
 {
-    ;
+    if(m_pScene)
+        delete m_pScene;
+    m_pScene        = NULL;
+    m_pEllipse      = NULL;
+    m_pHDirLine     = NULL;
+    m_pVDirLine     = NULL;
+    m_pDirEllipse   = NULL;
+    m_pEffLine      = NULL;
+    m_pEffEllipse   = NULL;
 }

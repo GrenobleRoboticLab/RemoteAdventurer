@@ -1,6 +1,6 @@
 #include "nxt_adventurer/RA_XMLHelper.h"
 
-#define COEF_PERCENT 100.0f
+#define COEF_CENT 100.0f
 
 using namespace RemoteAdventurer;
 
@@ -12,13 +12,13 @@ bool XMLWheelHelper::buildNode(const Wheel & wheel, pugi::xml_node & node)
     m_NameNode.append_attribute("value") = wheel.getName().c_str();
 
     m_EffortNode = node.append_child("effort");
-    m_EffortNode.append_attribute("value") = wheel.getEffort() * COEF_PERCENT;
+    m_EffortNode.append_attribute("value") = (int)(wheel.getEffort() * COEF_CENT);
 
     m_PositionNode = node.append_child("position");
-    m_PositionNode.append_attribute("value") = wheel.getPosition() * COEF_PERCENT;
+    m_PositionNode.append_attribute("value") = (int)(wheel.getPosition() * COEF_CENT);
 
     m_VelocityNode = node.append_child("velocity");
-    m_VelocityNode.append_attribute("value") = wheel.getVelocity() * COEF_PERCENT;
+    m_VelocityNode.append_attribute("value") = (int)(wheel.getVelocity() * COEF_CENT);
 
     return true;
 }
@@ -26,9 +26,9 @@ bool XMLWheelHelper::buildNode(const Wheel & wheel, pugi::xml_node & node)
 RA_ERROR XMLWheelHelper::buildWheel(const pugi::xml_node &node, Wheel &wheel)
 {
     wheel.setName(node.child("name").attribute("value").value());
-    wheel.setEffort(node.child("effort").attribute("value").as_int() / COEF_PERCENT);
-    wheel.setPosition(node.child("position").attribute("value").as_int() / COEF_PERCENT);
-    wheel.setVelocity(node.child("velocity").attribute("value").as_int() / COEF_PERCENT);
+    wheel.setEffort(node.child("effort").attribute("value").as_int() / COEF_CENT);
+    wheel.setPosition(node.child("position").attribute("value").as_int() / COEF_CENT);
+    wheel.setVelocity(node.child("velocity").attribute("value").as_int() / COEF_CENT);
 
     return RA_SUCCESS;
 }
@@ -38,26 +38,26 @@ RA_ERROR XMLWheelHelper::buildWheel(const pugi::xml_node &node, Wheel &wheel)
 bool XMLUltrasonicHelper::buildNode(const Ultrasonic &ultrasonic, pugi::xml_node &node)
 {
     m_RangeNode = node.append_child("range");
-    m_RangeNode.append_attribute("value") = ultrasonic.getRange() * COEF_PERCENT;
+    m_RangeNode.append_attribute("value") = (int)(ultrasonic.getRange() * COEF_CENT);
 
     m_RangeNode = node.append_child("rangeMin");
-    m_RangeNode.append_attribute("value") = ultrasonic.getRangeMin() * COEF_PERCENT;
+    m_RangeNode.append_attribute("value") = (int)(ultrasonic.getRangeMin() * COEF_CENT);
 
     m_RangeNode = node.append_child("rangeMax");
-    m_RangeNode.append_attribute("value") = ultrasonic.getRangeMax() * COEF_PERCENT;
+    m_RangeNode.append_attribute("value") = (int)(ultrasonic.getRangeMax() * COEF_CENT);
 
     m_RangeNode = node.append_child("spreadAngle");
-    m_RangeNode.append_attribute("value") = ultrasonic.getSpreadAngle() * COEF_PERCENT;
+    m_RangeNode.append_attribute("value") = (int)(ultrasonic.getSpreadAngle() * COEF_CENT);
 
     return true;
 }
 
 RA_ERROR XMLUltrasonicHelper::buildUltrasonic(const pugi::xml_node &node, Ultrasonic &ultrasonic)
 {
-    ultrasonic.setRange(node.child("range").attribute("value").as_int() / COEF_PERCENT);
-    ultrasonic.setRangeMin(node.child("rangeMin").attribute("value").as_int() / COEF_PERCENT);
-    ultrasonic.setRangeMax(node.child("rangeMax").attribute("value").as_int() / COEF_PERCENT);
-    ultrasonic.setSpreadAngle(node.child("spreadAngle").attribute("value").as_int() / COEF_PERCENT);
+    ultrasonic.setRange(node.child("range").attribute("value").as_int() / COEF_CENT);
+    ultrasonic.setRangeMin(node.child("rangeMin").attribute("value").as_int() / COEF_CENT);
+    ultrasonic.setRangeMax(node.child("rangeMax").attribute("value").as_int() / COEF_CENT);
+    ultrasonic.setSpreadAngle(node.child("spreadAngle").attribute("value").as_int() / COEF_CENT);
 
     return RA_SUCCESS;
 }
@@ -67,26 +67,26 @@ RA_ERROR XMLUltrasonicHelper::buildUltrasonic(const pugi::xml_node &node, Ultras
 bool XMLColorHelper::buildNode(const Color &color, pugi::xml_node &node)
 {
     m_IntensityNode = node.append_child("intensity");
-    m_IntensityNode.append_attribute("value") = color.getIntensity() * COEF_PERCENT;
+    m_IntensityNode.append_attribute("value") = (int)(color.getIntensity() * COEF_CENT);
 
     m_RedNode = node.append_child("red");
-    m_RedNode.append_attribute("value") = color.getRed() * COEF_PERCENT;
+    m_RedNode.append_attribute("value") = (int)(color.getRed() * COEF_CENT);
 
     m_GreenNode = node.append_child("green");
-    m_GreenNode.append_attribute("value") = color.getGreen() * COEF_PERCENT;
+    m_GreenNode.append_attribute("value") = (int)(color.getGreen() * COEF_CENT);
 
     m_BlueNode = node.append_child("blue");
-    m_BlueNode.append_attribute("value") = color.getBlue() * COEF_PERCENT;
+    m_BlueNode.append_attribute("value") = (int)(color.getBlue() * COEF_CENT);
 
     return true;
 }
 
 RA_ERROR XMLColorHelper::buildColor(const pugi::xml_node &node, Color &color)
 {
-    color.setIntensity(node.child("intensity").attribute("value").as_int() / COEF_PERCENT);
-    color.setRed(node.child("red").attribute("value").as_int() / COEF_PERCENT);
-    color.setGreen(node.child("green").attribute("value").as_int() / COEF_PERCENT);
-    color.setBlue(node.child("blue").attribute("value").as_int() / COEF_PERCENT);
+    color.setIntensity(node.child("intensity").attribute("value").as_int() / COEF_CENT);
+    color.setRed(node.child("red").attribute("value").as_int() / COEF_CENT);
+    color.setGreen(node.child("green").attribute("value").as_int() / COEF_CENT);
+    color.setBlue(node.child("blue").attribute("value").as_int() / COEF_CENT);
 
     return RA_SUCCESS;
 }
@@ -159,9 +159,10 @@ RA_ERROR XMLDashboardHelper::load(const std::string & sXML, Dashboard & dashboar
     }
     else
     {
-        std::cout << "XML [" << sXML << "] parsed with errors, attr value: [" << m_Document.child("node").attribute("attr").value() << "]\n";
-        std::cout << "Error description: " << result.description() << "\n";
-        std::cout << "Error offset: " << result.offset << " (error at [...]\n\n";
+        wRet = RA_FAIL;
+        std::cout << "XML parsed with errors" << std::endl;
+        std::cout << "Error description: " << result.description() << std::endl;
+        std::cout << "Error offset: " << result.offset << std::endl;
     }
 
     return wRet;
@@ -225,7 +226,7 @@ RA_ERROR XMLOrderHelper::load(const std::string &sXML, nxt_adventurer::Order &or
     pugi::xml_node  mainNode = m_Document.first_child();
 
     order.order = mainNode.child("order").attribute("value").as_int();
-    order.effort = mainNode.child("effort").attribute("value").as_double() / COEF_PERCENT;
+    order.effort = mainNode.child("effort").attribute("value").as_double() / COEF_CENT;
 
     if (ISOK(wRet))
     {
@@ -242,7 +243,7 @@ bool XMLOrderHelper::genXMLString(const nxt_adventurer::Order &order, std::strin
     pugi::xml_node mainNode = m_Document.append_child("order");
 
     mainNode.append_child("order").append_attribute("value") = order.order;
-    mainNode.append_child("effort").append_attribute("value") = order.effort * COEF_PERCENT;
+    mainNode.append_child("effort").append_attribute("value") = (int)(order.effort * COEF_CENT);
 
     if (order.direction)
         mainNode.append_child("direction").append_attribute("value") = "true";

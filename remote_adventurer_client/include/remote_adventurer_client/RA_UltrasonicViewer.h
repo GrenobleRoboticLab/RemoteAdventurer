@@ -9,6 +9,9 @@ using namespace RemoteAdventurer;
 namespace RemoteAdventurerClient
 {
 
+/**
+ * This class show ultrasonic informations get from the server.
+ */
 class UltrasonicViewer : public QGraphicsView
 {
     Q_OBJECT
@@ -16,9 +19,15 @@ public:
     UltrasonicViewer(QWidget * parent = NULL);
     ~UltrasonicViewer();
 
+    /**
+     * Update this QGraphicsView with the given ultrasonic's informations.
+     */
     void                    update(const Ultrasonic & ultrasonic);
 
 protected:
+    /**
+     * Recompute rendering with the new size.
+     */
     virtual void            resizeEvent(QResizeEvent * event);
 
 private:

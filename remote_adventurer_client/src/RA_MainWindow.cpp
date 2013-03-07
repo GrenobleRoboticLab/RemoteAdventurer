@@ -101,6 +101,11 @@ void RobotViewer::update(const Dashboard &dashboard)
         m_pColor->update(dashboard.getColor());
 }
 
+void RobotViewer::connect(TcpClient *pTcp)
+{
+    QObject::connect(m_pController, SIGNAL(sendOrder(nxt_adventurer::Order)), pTcp, SLOT(sendOrder(nxt_adventurer::Order)));
+}
+
 void RobotViewer::release()
 {
     releaseRightWheel();
@@ -192,6 +197,11 @@ MainWindow::~MainWindow()
 {
     std::cout << "Destroying MainWindow" << std::endl;
     release();
+}
+
+void MainWindow::connect(TcpClient *pTcp)
+{
+    m_pRobotViewer->connect(pTcp);
 }
 
 void MainWindow::release()

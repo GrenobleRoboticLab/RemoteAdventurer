@@ -58,9 +58,9 @@ void Teleop::process()
 {
     char c;
 
-    puts("Keyboard input");
-    puts("--------------");
-    puts("[z q s d | x ]");
+    std::cout << "Keyboard input" << std::endl;
+    std::cout << "--------------" << std::endl;
+    std::cout << "[z q s d | x ]" << std::endl;
 
     while (true)
     {

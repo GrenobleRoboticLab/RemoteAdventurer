@@ -22,9 +22,9 @@ private slots:
     void            connected();
 
 private:
-    MainWindow      m_MainWindow;
     TcpClient       m_TcpClient;
     ConnectDialog   m_ConnectDialog;
+    MainWindow      m_MainWindow;
 
 };
 
