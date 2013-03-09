@@ -159,7 +159,6 @@ RA_ERROR XMLDashboardHelper::load(const std::string & sXML, Dashboard & dashboar
     }
     else
     {
-        wRet = RA_FAIL;
         std::cout << "XML parsed with errors" << std::endl;
         std::cout << "Error description: " << result.description() << std::endl;
         std::cout << "Error offset: " << result.offset << std::endl;

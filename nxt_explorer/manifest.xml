@@ -1,0 +1,16 @@
+<package>
+  <description brief="nxt_explorer">
+
+     nxt_explorer
+
+  </description>
+  <author>Xavier</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/nxt_explorer</url>
+  <depend package="roscpp"/>
+  <depend package="nxt_adventurer"/>
+
+</package>
+
+
