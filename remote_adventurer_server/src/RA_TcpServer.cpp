@@ -112,6 +112,8 @@ void TcpServer::readClientMsg()
             sReceive += cBuffer;
     }
 
+    std::cout << sReceive << std::cout;
+
     if (m_NxtOrder.treat(sReceive))
         sendStr("Your order has been transmitted.");
     else

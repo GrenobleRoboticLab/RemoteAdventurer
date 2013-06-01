@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:loc="clr-namespace:GaugeLib">
+    
+    <Style TargetType="loc:LinearBarIndicator" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="loc:LinearBarIndicator">
+                    <Rectangle Fill="{TemplateBinding BarBrush}"></Rectangle>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="loc:RadialBarIndicator">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="loc:RadialBarIndicator">
+                    <Path x:Name="PART_BAR" Fill="{TemplateBinding BarBrush}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="loc:NeedleIndicator">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="loc:NeedleIndicator">
+                    <Path x:Name="PART_Needle" Data="M7,0 L0,10 L5,10 L5,70 L8,70 L8,10 L13,10 Z" Fill="{TemplateBinding Background}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="loc:MarkerIndicator">
+        <Setter Property="MarkerTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path Data="M0,0 L6,0 L6,20 L0,20 Z"
+                              Fill="White" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="loc:MarkerIndicator">
+                    
+                    <ContentPresenter x:Name="PART_Marker"
+                                      ContentTemplate="{TemplateBinding MarkerTemplate}" />
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,20 @@
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\bin\x64\Debug\NXTLeap.exe
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\bin\x64\Debug\NXTLeap.pdb
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\bin\x64\Debug\LeapCSharp.NET4.0.dll
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\bin\x64\Debug\NXTRemoteLib.dll
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.NXTLeapForm.resources
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.Properties.Resources.resources
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.csproj.GenerateResource.Cache
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.exe
+C:\Users\Steph\Documents\Visual Studio 2012\Projects\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.pdb
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.exe
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.pdb
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\bin\x64\Debug\NXTLeap.exe
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\bin\x64\Debug\NXTLeap.pdb
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\bin\x64\Debug\LeapCSharp.NET4.0.dll
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\bin\x64\Debug\NXTRemoteLib.dll
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.NXTLeapForm.resources
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.Properties.Resources.resources
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\obj\x64\Debug\NXTLeap.csproj.GenerateResource.Cache
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\bin\x64\Debug\NXTLeap.exe.CodeAnalysisLog.xml
+C:\Users\Steph\Desktop\NXTLeap\NXTLeap\bin\x64\Debug\NXTLeap.exe.lastcodeanalysissucceeded

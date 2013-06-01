@@ -73,7 +73,7 @@ private:
 
 int main(int argc, char ** argv)
 {
-    ros::init(argc, argv, "nxt_teleop");
+    ros::init(argc, argv, "lib_sample");
     ros::NodeHandle nh;
 
     // we create a factory

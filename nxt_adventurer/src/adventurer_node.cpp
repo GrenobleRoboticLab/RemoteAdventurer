@@ -1,7 +1,7 @@
-#include <ros/ros.h> // nous donne l'accès aux fonctionnalités et objets natifs de ROS
-#include <cmath> // nous permettra de récupérer la valeur absolue de l'effort
-#include <nxt_msgs/JointCommand.h> // récupère le message JointCommand du package nxt_msgs
-#include <nxt_adventurer/Order.h> // récupère le message que nous avons créé précédement
+#include <ros/ros.h>                // nous donne l'accès aux fonctionnalités et objets natifs de ROS
+#include <cmath>                    // nous permettra de récupérer la valeur absolue de l'effort
+#include <nxt_msgs/JointCommand.h>  // récupère le message JointCommand du package nxt_msgs
+#include <nxt_adventurer/Order.h>   // récupère le message que nous avons créé précédement
 
 class Adventurer
 {

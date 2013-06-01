@@ -1,0 +1,180 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="NXTRemote.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:gauge="clr-namespace:GaugeLib;assembly=GaugeLib"
+    xmlns:gaugecustom="clr-namespace:NXTRemote.Gauges;assembly=NXTRemote"
+    xmlns:myObjs="clr-namespace:NXTRemote.Objects;assembly=NXTRemote"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <phone:PhoneApplicationPage.Resources>
+        <gaugecustom:GradientConverter x:Key="gauge01" EndColor="Red" StartColor="White" StartValue="64" EndValue="90" />
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="ConnectionPanel" Grid.Row="0" Margin="10,6,0,10">
+            <Grid x:Name="LayoutConnectionPanel" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <!-- Fit to content -->
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <!--Text="10.18.18.90" : 4000   192.168.202.136 -->
+                <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="IP :" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="TextboxIp" MinWidth="15" MaxLength="15" Text="" Width="170" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Port :" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                <TextBox Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="TextboxPort" MinWidth="5" MaxLength="5" Text="" Width="90" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                <Button Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ButtonConnection" Content="Connect" FontSize="{StaticResource PhoneFontSizeNormal}" BorderThickness="1" FontStretch="Normal" FontStyle="Normal" FontWeight="Normal" Padding="4" Width="136" Click="ButtonConnection_Click" />
+            </Grid>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="10,4,10,10">
+            <StackPanel>
+                <StackPanel  Height="60" x:Name="ColorPanel">
+                    <Rectangle x:Name="colorRectangle" Height="60" HorizontalAlignment="Left" Stroke="#96FFFFFF" StrokeThickness="2" VerticalAlignment="Top" Width="456" Fill="Black" />
+                </StackPanel>
+                <StackPanel Height="200" x:Name="ContactPanel" Orientation="Horizontal" FlowDirection="LeftToRight">
+                    <myObjs:MyCheckBox x:Name="leftContactCheckbox" Content="Contact" FlowDirection="RightToLeft" IsHitTestVisible="False" Width="144" />
+                    <!--<Rectangle Height="200" HorizontalAlignment="Left" Name="rectangle1" Stroke="Black" StrokeThickness="1" VerticalAlignment="Top" Width="160" Fill="#32FFFFFF" />-->
+                    <Slider Name="leftRangeSlider" Height="200" Width="40" Minimum="0" Maximum="1000" Orientation="Vertical" Value="0" IsHitTestVisible="False" Foreground="#FF424242" />
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="100">
+                        <TextBlock Name="rangeTextBlock" Text="   0 cm" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="16,0,16,0" />
+                    </StackPanel>
+                    <Slider Name="rightRangeSlider" Height="200" Width="40" Minimum="0" Maximum="1000" Orientation="Vertical" Value="0" IsHitTestVisible="False" Foreground="#FF424242" />
+                    <myObjs:MyCheckBox x:Name="rightContactCheckbox" Content="Contact" IsHitTestVisible="False" />
+                    <!--<Rectangle Height="200" HorizontalAlignment="Left" Name="rectangle2" Stroke="Black" StrokeThickness="1" VerticalAlignment="Top" Width="160" Fill="#32FFFFFF" />-->
+                </StackPanel>
+                <StackPanel Height="50" Orientation="Horizontal">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Speed : " IsHitTestVisible="False" />
+                    <Slider Name="speedSlider" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="76" Width="330" Minimum="0" Maximum="100" Value="20" Foreground="#FF424242" BorderThickness="1" IsHitTestVisible="False" SmallChange="5" LargeChange="5" ValueChanged="speedSlider_ValueChanged" />
+                    <TextBlock Name="speedPercentage" HorizontalAlignment="Center" VerticalAlignment="Center" Text=" 20 %" />
+                </StackPanel>
+                <StackPanel Height="140">
+                    <Grid x:Name="LayoutGaugesPanel">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="152"/>
+                            <ColumnDefinition Width="152"/>
+                            <ColumnDefinition Width="152"/>
+                        </Grid.ColumnDefinitions>
+                        <gauge:RadialScale Name="LeftMotorGauge" Height="140" Width="140" SweepDirection="Counterclockwise" RadialType="Circle" RangeThickness="0" TickPlacement="Outward" UseLayoutRounding="True" UseRangeColorsForTicks="True" EnableLabelRotation="False" FlowDirection="RightToLeft" MaxAngle="100" Maximum="100" MinAngle="-140" Grid.Column="0">
+                            <gauge:NeedleIndicator Name="leftMotorGaugeNeedle" Value="0" Background="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, Converter={StaticResource gauge01}}" />
+                            <gauge:RadialScale.Ranges>
+                                <gauge:GaugeRange Offset="79" Color="White" />
+                                <gauge:GaugeRange Offset="99" Color="Orange" />
+                                <gauge:GaugeRange Offset="100" Color="Red" />
+                            </gauge:RadialScale.Ranges>
+                            <gauge:RadialScale.MinorTickTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width="1" Height="1" Fill="White"/>
+                                </DataTemplate>
+                            </gauge:RadialScale.MinorTickTemplate>
+                            <gauge:RadialScale.MajorTickTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width="2" Height="2" Fill="Red"/>
+                                </DataTemplate>
+                            </gauge:RadialScale.MajorTickTemplate>
+                        </gauge:RadialScale>
+                        <gauge:RadialScale Name="AuxMotorGauge" Height="140" Width="140" SweepDirection="Counterclockwise" RadialType="Circle" RangeThickness="0" TickPlacement="Outward" UseLayoutRounding="True" UseRangeColorsForTicks="True" EnableLabelRotation="False" FlowDirection="RightToLeft" MaxAngle="100" Maximum="100" MinAngle="-140" Grid.Column="1">
+                            <gauge:NeedleIndicator Name="auxMotorGaugeNeedle" Value="0" Background="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, Converter={StaticResource gauge01}}"/>
+                            <gauge:RadialScale.Ranges>
+                                <gauge:GaugeRange Offset="79" Color="White" />
+                                <gauge:GaugeRange Offset="99" Color="Orange" />
+                                <gauge:GaugeRange Offset="100" Color="Red" />
+                            </gauge:RadialScale.Ranges>
+                            <gauge:RadialScale.MinorTickTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width="1" Height="1" Fill="White"/>
+                                </DataTemplate>
+                            </gauge:RadialScale.MinorTickTemplate>
+                            <gauge:RadialScale.MajorTickTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width="2" Height="2" Fill="Red"/>
+                                </DataTemplate>
+                            </gauge:RadialScale.MajorTickTemplate>
+                        </gauge:RadialScale>
+                        <gauge:RadialScale Name="RightMotorGauge" Height="140" Width="140" SweepDirection="Counterclockwise" RadialType="Circle" RangeThickness="0" TickPlacement="Outward" UseLayoutRounding="True" UseRangeColorsForTicks="True" EnableLabelRotation="False" FlowDirection="RightToLeft" MaxAngle="100" Maximum="100" MinAngle="-140" Grid.Column="2">
+                            <gauge:NeedleIndicator Name="rightMotorGaugeNeedle" Value="0" Background="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value, Converter={StaticResource gauge01}}"/>
+                            <gauge:RadialScale.Ranges>
+                                <gauge:GaugeRange Offset="79" Color="White" />
+                                <gauge:GaugeRange Offset="99" Color="Orange" />
+                                <gauge:GaugeRange Offset="100" Color="Red" />
+                            </gauge:RadialScale.Ranges>
+                            <gauge:RadialScale.MinorTickTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width="1" Height="1" Fill="White"/>
+                                </DataTemplate>
+                            </gauge:RadialScale.MinorTickTemplate>
+                            <gauge:RadialScale.MajorTickTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width="2" Height="2" Fill="Red"/>
+                                </DataTemplate>
+                            </gauge:RadialScale.MajorTickTemplate>
+                        </gauge:RadialScale>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Height="30">
+                    <Grid x:Name="LayoutGaugesLegendPanel" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="152"/>
+                            <ColumnDefinition Width="152"/>
+                            <ColumnDefinition Width="152"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Name="tb_LeftEngine" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Left Engine" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                        <TextBlock Name="tb_AuxEngine" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Aux Engine" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                        <TextBlock Name="tb_RightEngine" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Right Engine" FontSize="{StaticResource PhoneFontSizeNormal}" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel>
+                    <StackPanel>
+                        <Button x:Name="ButtonForward" Content="Forward" FontSize="{StaticResource PhoneFontSizeNormal}" BorderThickness="1" FontStretch="Normal" FontStyle="Normal" FontWeight="Normal" Click="ButtonForward_Click" IsEnabled="False" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ButtonLeft" Content="Left" FontSize="{StaticResource PhoneFontSizeNormal}" BorderThickness="1" FontStretch="Normal" FontStyle="Normal" FontWeight="Normal" Width="148" Click="ButtonLeft_Click" IsEnabled="False" />
+                        <Button x:Name="ButtonStop" Content="Stop" FontSize="{StaticResource PhoneFontSizeNormal}" BorderThickness="1" FontStretch="Normal" FontStyle="Normal" FontWeight="Normal" Width="148" Click="ButtonStop_Click" IsEnabled="False" />
+                        <Button x:Name="ButtonRight" Content="Right" FontSize="{StaticResource PhoneFontSizeNormal}" BorderThickness="1" FontStretch="Normal" FontStyle="Normal" FontWeight="Normal" Width="148" Click="ButtonRight_Click" IsEnabled="False" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Button x:Name="ButtonBack" Content="Back" FontSize="{StaticResource PhoneFontSizeNormal}" BorderThickness="1" FontStretch="Normal" FontStyle="Normal" FontWeight="Normal" Click="ButtonBack_Click" IsEnabled="False" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+    <!--Sample code showing usage of ApplicationBar-->
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
+                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+</phone:PhoneApplicationPage>
